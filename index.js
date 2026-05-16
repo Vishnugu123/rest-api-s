@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const MethodOverride = require("method-override");
 
 const { v4 : uuidv4 } = require("uuid");
 
 const port = 8080;
 
 app.use(express.urlencoded({ extended: true }));
+
+app.use(MethodOverride("_method"));
 
 app.set("view engine", "ejs");
 
@@ -52,17 +55,27 @@ app.post("/posts" , (req,res) => {
     res.redirect("/posts");
 });
 
-app.patch("/posts/id" ,(req,res) =>{
+app.patch("/posts/:id" ,(req,res) =>{
     let {id} = req.params;
-    let post = data1.find((p) => id === p.id);
     let newContent = req.body.content;
-    content = newContent;
+    let post = data1.find((p) => id === p.id);
+    post.content = newContent;
+    res.redirect("/posts");
 });
 
 app.get("/posts/:id/edit" , (req,res) => {
     let {id} = req.params;
     let post = data1.find((p) => id === p.id);
+    res.render("edit.ejs",{ post });
 });
+
+app.delete("/posts/:id",(req,res) => {
+    let {id} = req.params;
+    data1 = data1.filter((p) => id !== p.id);
+    res.redirect("/posts");
+});
+
+
 app.listen(port, () => {
     console.log(`port is listening on ${port}`);
 });
