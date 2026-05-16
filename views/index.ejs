@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="/style.css">
     <title>All posts</title>
 </head>
 <body>
@@ -12,8 +12,16 @@
     <% for(data of data1) { %>
         <div class="post">
             <h3>@<%= data.username %></h3>
-            <h4><%= data.thougth %></h4>
+            <h4><%= data.content %></h4>
+            <br>
+            <br>
+            <a href="http://localhost:8080/posts/<%= data.id %>">See In full details</a>
+             <a href="http://localhost:8080/posts/<%= data.id %>/edit">Edit</a>
         </div>
     <% } %>
+
+    <br>
+    <br>
+    <a href="http://localhost:8080/posts/new">Create New Post</a>
 </body>
 </html>
